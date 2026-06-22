@@ -4,6 +4,8 @@ This is a simple workflow using the Loci_platform tooling that uses the `loci_pl
 
 ## Setup
 
+This setup assumes that this repo is cloned to a directory that also contains a clone of the `loci_platform` repo, and that the PostGIS database provisioned in `loci_platform/platform/docker-compose.yml` (or at least some PostGIS database) is up and running on the host machine.
+
 Make a `.env` file with credentials for connecting to your database.
 
 ```txt
