@@ -1,0 +1,30 @@
+services:
+  collector:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    image: loci-collector:latest
+    env_file: .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ../loci_platform/platform/airflow/dags:/app/loci_platform:ro
+      - ./py:/work
+    working_dir: /work
+    command: ["python", "collect.py"]
+
+  r-experiment:
+    build:
+      context: .
+      dockerfile: Dockerfile.r
+    image: loci-r:latest
+    env_file: .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./r:/work
+    working_dir: /work
+    command: ["Rscript", "experiment.R"]
+    depends_on:
+      collector:
+        condition: service_completed_successfully
